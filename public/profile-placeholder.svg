@@ -1,0 +1,5 @@
+<svg width="208" height="208" viewBox="0 0 208 208" xmlns="http://www.w3.org/2000/svg">
+  <rect width="208" height="208" fill="#111111"/>
+  <circle cx="104" cy="104" r="104" fill="#111111"/>
+  <text x="104" y="118" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="52" font-weight="700" fill="#4a9eff" letter-spacing="-2">MM</text>
+</svg>

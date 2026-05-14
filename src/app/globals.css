@@ -2,26 +2,123 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Design tokens ─────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --surface-2: #1a1a1a;
+  --border: #222222;
+  --text: #f0f0f0;
+  --muted: #999999;
+  --accent: #4a9eff;
+  --accent-dim: rgba(74, 158, 255, 0.12);
+
+  /* Effect intensity knobs */
+  --fx-grid-opacity: 0.035;
+  --fx-orb-opacity: 0.4;
+  --fx-glow-spread: 18px;
+  --fx-glow-color: rgba(74, 158, 255, 0.35);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Base ───────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
 }
 
+/* ─── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+/* ─── Selection ──────────────────────────────────────────────── */
+::selection { background: rgba(74, 158, 255, 0.25); }
+
+/* ─── Background grid ────────────────────────────────────────── */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, var(--fx-grid-opacity)) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, var(--fx-grid-opacity)) 1px, transparent 1px);
+  background-size: 56px 56px;
+  animation: gridDrift 25s linear infinite;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 30%, transparent 100%);
+}
+
+/* ─── Floating orbs ──────────────────────────────────────────── */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: var(--fx-orb-opacity);
+}
+
+.orb-1 {
+  width: 640px;
+  height: 640px;
+  background: radial-gradient(circle, rgba(74, 158, 255, 0.45) 0%, transparent 65%);
+  top: -220px;
+  right: -120px;
+  animation: float 28s ease-in-out infinite;
+}
+
+.orb-2 {
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(74, 158, 255, 0.2) 0%, rgba(90, 90, 220, 0.12) 50%, transparent 70%);
+  bottom: 5%;
+  left: -160px;
+  animation: float 34s ease-in-out infinite;
+  animation-delay: -10s;
+}
+
+.orb-3 {
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(74, 158, 255, 0.22) 0%, transparent 70%);
+  top: 38%;
+  left: 42%;
+  animation: float 22s ease-in-out infinite;
+  animation-delay: -18s;
+}
+
+/* ─── Keyframes ──────────────────────────────────────────────── */
+@keyframes gridDrift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 56px 56px; }
+}
+
+@keyframes float {
+  0%,  100% { transform: translate(0,    0)    scale(1);    }
+  20%        { transform: translate(28px, -36px) scale(1.04); }
+  45%        { transform: translate(-18px, 22px) scale(0.97); }
+  70%        { transform: translate(36px,  28px) scale(1.02); }
+}
+
+/* ─── Glow utilities ─────────────────────────────────────────── */
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .text-balance { text-wrap: balance; }
+
+  .glow {
+    box-shadow:
+      0 0 var(--fx-glow-spread) var(--fx-glow-color),
+      0 0 calc(var(--fx-glow-spread) * 2.5) rgba(74, 158, 255, 0.1);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 22px rgba(74, 158, 255, 0.55);
+  }
+
+  .glow-border {
+    border-color: var(--accent);
+    box-shadow:
+      0 0 8px rgba(74, 158, 255, 0.4),
+      inset 0 0 8px rgba(74, 158, 255, 0.05);
   }
 }
